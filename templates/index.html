@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>chatSEO</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body, input {
             font-family: 'Roboto', sans-serif;
@@ -30,7 +28,7 @@
             background-color: #f6f8fa;
             padding: 16px;
             overflow: auto;
-            max-width: 800px;
+            max-width: 1600;
             width: 100%;
             box-sizing: border-box;
         }
@@ -53,7 +51,7 @@
             background-color: #ffffff;
             padding: 10px;
             border-radius: 20px;
-            max-width: 70%;
+            max-width: 100%;
             line-height: 1.5;
         }
 
@@ -75,7 +73,7 @@
             align-items: center;
             margin: 0 auto;
             padding: 16px;
-            max-width: 800px;
+            max-width: 1600;
             width: 100%;
             box-sizing: border-box;
             background-color: #eef1f4;
@@ -104,7 +102,6 @@
     </style>
 </head>
 <body>
-    <h1>chatSEO</h1>
     <div id="chat-container"></div>
     <form id="chat-form">
         <input type="text" id="message" name="message" required placeholder="Type your message...">
@@ -113,46 +110,14 @@
 
     </form>
     <script>
-        // Initialize an array to store the conversation history
         let conversationHistory = [];
 
-        // Function to load the conversation history from localStorage
-        function loadConversationHistory() {
-            const storedHistory = localStorage.getItem("conversationHistory");
-            if (storedHistory) {
-                conversationHistory = JSON.parse(storedHistory);
-                conversationHistory.forEach(message => {
-                    addMessage(message.content, message.role === "user" ? "user" : "bot");
-                });
-            } else {
-                // Display the welcome message if there's no stored history
-                displayWelcomeMessage();
-            }
-        }
-
         function clearHistory() {
-            // Clear the chat container
             const chatContainer = document.getElementById("chat-container");
             chatContainer.innerHTML = '';
-
-            // Clear the conversation history array
             conversationHistory = [];
-
-            // Clear the conversation history from localStorage
-            localStorage.removeItem("conversationHistory");
-
-            // Display the welcome message again
-            displayWelcomeMessage();
         }
 
-
-
-        // Function to save the conversation history to localStorage
-        function saveConversationHistory() {
-            localStorage.setItem("conversationHistory", JSON.stringify(conversationHistory));
-        }
-
-        // Function to add a message to the chat container
         function addMessage(message, sender) {
             const chatContainer = document.getElementById("chat-container");
             const messageElement = document.createElement("div");
@@ -167,12 +132,6 @@
     
             // Scroll to the bottom of the chat container
             chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-    
-        // Function to display the welcome message from the bot
-        function displayWelcomeMessage() {
-            const welcomeMessage = "Hello! I'm chatSEO. How can I help you today?";
-            addMessage(welcomeMessage, "bot");
         }
     
         // Function to display a temporary "Generating response..." message from the bot
@@ -203,7 +162,6 @@
             // Display the user's message and update the conversation history
             addMessage(message, "user");
             conversationHistory.push({ role: "user", content: message });
-            saveConversationHistory(); // Save the updated conversation history to localStorage
 
             input.value = "";
             input.focus();
@@ -226,19 +184,13 @@
                 removeGeneratingMessage(generatingMessage);
                 addMessage(data, "bot");
                 conversationHistory.push({ role: "assistant", content: data });
-                saveConversationHistory(); // Save the updated conversation history to localStorage
             });
         });
 
-        // Event listener for the "Clear History" button
+        // clear history
         document.getElementById("clear-history").addEventListener("click", function() {
             clearHistory();
         });
-
-
-    
-        // Load the conversation history when the page loads
-        loadConversationHistory();
     </script>
     
 </body>
